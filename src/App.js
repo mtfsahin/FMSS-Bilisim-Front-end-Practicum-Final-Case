@@ -1,18 +1,15 @@
-import { Link, Outlet, } from 'react-router-dom';
-
-
+import { Outlet, } from 'react-router-dom';
+import Header from './components/common/Header';
+import Routers from './router/Routers';
 function App() {
 
   return (
     <div>
-      <nav className="bg-gray-100 flex gap-4 p-5">
-        <Link to="/"><span>Home</span></Link>
-        <Link to="/starships"><span>Starships</span></Link>
-        <Link to="/about"><span>About</span></Link>
-      </nav>
+      <Header />
+      <Routers/>
       {/* displays the content with Outlet */}
       <Outlet></Outlet>
-      
+    
     </div>
   );
 }
