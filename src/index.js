@@ -4,6 +4,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
+//import custom fonts
+import '../src/assets/fonts/Helvetica.ttf';
+import '../src/assets/fonts/Helvetica-Bold.ttf';
+
+
 //import BooksContextProvider
 
 //import BrowserRouter

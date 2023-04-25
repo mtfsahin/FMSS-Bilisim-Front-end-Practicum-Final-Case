@@ -7,6 +7,7 @@ function App() {
     <div>
       <Header />
       <Routers/>
+      
       {/* displays the content with Outlet */}
       <Outlet></Outlet>
     
