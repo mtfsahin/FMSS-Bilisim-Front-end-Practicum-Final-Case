@@ -10,8 +10,11 @@ module.exports = {
         'sans-bold': ['Helvetica', 'Arial', 'sans-serif'],
         'starjedi': ['Starjedi', 'sans-serif'],
         'starjhol': ['Starjhol', 'sans-serif'],
-
-            },
+      },
+      //spin animation for border
+      animation: {
+        'spin-slow': 'spin 5s linear infinite',
+      },
       colors: {
         'primary': {
           '50': '#f7f7f7',
