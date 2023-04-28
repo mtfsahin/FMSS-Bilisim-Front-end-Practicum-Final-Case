@@ -1,74 +1,112 @@
-import React, { useState } from 'react';
-import FilterComponent from './FilterComponent/FilterComponent';
+import React, { useContext, useState, useEffect } from 'react';
+import { StarshipContext } from '../context/StarshipContext';
+import Card from './CardComponent/CardComponent';
+import StarshipImg from '../assets/img/starship_1.png'
 
-const StarshipList = () => {
-    const [starships, setStarships] = useState([]);
+
+import StarshipFilterComponent from './StarshipFilterComponent/StarshipFilterComponent';
+
+function StarshipList() {
+    const { starships, fetchNextPage, nextPage, loading } = useContext(StarshipContext);
+    const [page, setPage] = useState(1);
+    const [noMoreData, setNoMoreData] = useState(false);
     const [filteredStarships, setFilteredStarships] = useState([]);
 
-    const fetchStarships = async () => {
-        const response = await fetch('https://swapi.dev/api/starships/');
-        const data = await response.json();
-        setStarships(data.results);
-        setFilteredStarships(data.results);
-    };
+    useEffect(() => {
+        if (starships.length && !nextPage) {
+            setNoMoreData(true);
+        } else {
+            setNoMoreData(false);
+        }
 
-    const handleFilterChange = (event) => {
-        const { name, value } = event.target;
-        console.log("starshipler",fetchStarships());
-        setFilteredStarships(
-            starships.filter((starship) => {
-                if (!value) return true;
+        setFilteredStarships(starships);
+    }, [starships]);
 
-                if (name === 'crewFilter') {
-                    const [min, max] = value.split('-');
-                    return starship.crew >= min && starship.crew <= max;
+    const handleNextPage = async () => {
+        setPage(prevPage => prevPage + 1);
+        await fetchNextPage(page + 1);
+    }
+
+    const handleFilter = filters => {
+        let filtered = starships;
+
+        // Search text filter
+        if (filters.searchText) {
+            filtered = filtered.filter(starship =>
+                starship.name.toLowerCase().includes(filters.searchText) ||
+                starship.model.toLowerCase().includes(filters.searchText)
+            );
+        }
+
+        // Crew filter
+        if (filters.crew) {
+            filtered = filtered.filter(starship => {
+                const crewCount = parseInt(starship.crew);
+                if (filters.crew === 'unknown') {
+                    return isNaN(crewCount);
+                } else if (filters.crew === 'other') {
+                    return crewCount <= 0;
+                } else {
+                    return crewCount >= parseInt(filters.crew);
                 }
+            });
+        }
+        // Passengers filter
+        if (filters.passengers) {
+            filtered = filtered.filter(starship => {
+                const passengersCount = parseInt(starship.passengers);
+                if (filters.passengers === 'unknown') {
+                    return isNaN(passengersCount);
+                } else if (filters.passengers === 'other') {
+                    return passengersCount <= 0;
+                } else {
+                    return passengersCount >= parseInt(filters.passengers);
+                }
+            });
+        }
 
-                return starship[name] === value;
-            })
-        );
-    };
+        setFilteredStarships(filtered);
+    }
 
     return (
-        <div className="container mx-auto mt-8">
-            <FilterComponent
-                handleFilterChange={handleFilterChange}
-                sizeOptions={[
-                    { label: 'All', value: '' },
-                    { label: 'Small', value: 'small' },
-                    { label: 'Medium', value: 'medium' },
-                    { label: 'Large', value: 'large' },
-                ]}
-                sizeFilterName="size"
-                crewOptions={[
-                    { label: 'All', value: '' },
-                    { label: '1-10', value: '1-10' },
-                    { label: '11-50', value: '11-50' },
-                    { label: '51-100', value: '51-100' },
-                    { label: '100+', value: '100+' },
-                ]}
-                crewFilterName="crew"
-            />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-8">
-                {filteredStarships.map((starship, index) => (
-                    <div key={index} className="bg-white shadow-md rounded-md overflow-hidden">
-                        <div className="px-4 py-3 bg-primary-950">
-                            <h3 className="text-lg font-bold text-primary-100">{starship.name}</h3>
-                            <p className="text-sm text-primary-300">Model: {starship.model}</p>
-                        </div>
-                        <div className="px-4 py-3 bg-white">
-                            <p className="text-sm font-bold text-primary-700 mb-1">Manufacturer</p>
-                            <p className="text-sm text-primary-500">{starship.manufacturer}</p>
-                            <p className="text-sm font-bold text-primary-700 mb-1 mt-2">Passengers</p>
-                            <p className="text-sm text-primary-500">{starship.passengers}</p>
-                            <p className="text-sm font-bold text-primary-700 mb-1 mt-2">Crew</p>
-                            <p className="text-sm text-primary-500">{starship.crew}</p>
-                        </div>
+        <div className="max-w-screen-2xllg mx-auto">
+            <div className="grid justify-center">
+                <StarshipFilterComponent onFilter={handleFilter} />
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                    {filteredStarships.map(starship => (
+                        <Card
+                            key={starship.name}
+                            title={starship.name}
+                            subtitle={starship.model}
+                            image={StarshipImg}
+                            rating={3}
+                            details={[
+                                { label: 'Manufacturer:', value: starship.manufacturer },
+                                { label: 'Crew:', value: starship.crew },
+                                // add more details as needed
+                            ]}
+                        />
+                    ))}
+                </div>
+                {!noMoreData && (
+                    <div className="flex justify-center">
+                        <button
+                            className="btn btn-primary px-8 py-3 mt-6 rounded-full shadow-lg hover:shadow-xl transition duration-200"
+                            onClick={handleNextPage}
+                            disabled={loading}
+                        >
+                            {loading ? 'Loading...' : 'Load More'}
+                        </button>
                     </div>
-                ))}
+                )}
+                {noMoreData && (
+                    <div className="text-center mt-6 text-gray-500">No more data</div>
+                )}
             </div>
         </div>
-    );
-};
 
-export default StarshipList;
+
+    );
+}
+
+export default StarshipList;  
