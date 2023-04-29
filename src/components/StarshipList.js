@@ -20,7 +20,8 @@ function StarshipList() {
         }
 
         setFilteredStarships(starships);
-    }, [starships]);
+
+    }, [starships,page]);
 
     const handleNextPage = async () => {
         setPage(prevPage => prevPage + 1);
@@ -37,11 +38,13 @@ function StarshipList() {
                 starship.model.toLowerCase().includes(filters.searchText)
             );
         }
-
         // Crew filter
         if (filters.crew) {
             filtered = filtered.filter(starship => {
                 const crewCount = parseInt(starship.crew);
+
+                console.log("crew count", crewCount)
+
                 if (filters.crew === 'unknown') {
                     return isNaN(crewCount);
                 } else if (filters.crew === 'other') {
@@ -69,24 +72,34 @@ function StarshipList() {
     }
 
     return (
-        <div className="max-w-screen-2xllg mx-auto">
+        <div className="max-w-screen-2xl mx-auto ">
             <div className="grid justify-center">
                 <StarshipFilterComponent onFilter={handleFilter} />
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredStarships.map(starship => (
-                        <Card
-                            key={starship.name}
-                            title={starship.name}
-                            subtitle={starship.model}
-                            image={StarshipImg}
-                            rating={3}
-                            details={[
-                                { label: 'Manufacturer:', value: starship.manufacturer },
-                                { label: 'Crew:', value: starship.crew },
-                                // add more details as needed
-                            ]}
-                        />
-                    ))}
+                <div className='flex justify-center bg-white backdrop-blur-sm bg-opacity-20 rounded-3xl mt-5'>
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 p-5 pr-5 pb-10">
+                        {filteredStarships.map(starship => (
+                            <div>
+                                 {/* <p>{starship.passengers}</p> */}
+                                 {/* <p>{starship.crew}</p> */}
+
+                                <p>Lenght:{starship.length}</p>
+                                {/* <p>Cargo {starship.cargo_capacity}</p> */}
+
+
+                            </div>
+
+                            // <Card
+                            //     key={starship.name}
+                            //     title={starship.name}
+                            //     subtitle={starship.model}
+                            //     image={StarshipImg}
+                            //     rating={starship.hyperdrive_rating}
+                            //     passengers={starship.passengers}
+                            //     length={starship.length}
+                            //     cargo_capacity={starship.cargo_capacity}
+                            // />
+                        ))}
+                    </div>
                 </div>
                 {!noMoreData && (
                     <div className="flex justify-center">

@@ -7,13 +7,13 @@ import StarBackground from './components/StarBackground/StarBackgound';
 function App() {
 
   return (
-    
+
     <StarshipProvider>
-      <StarBackground />
+      {/* <StarBackground /> */}
       <div>
         <Header />
-        <Routers />
 
+        <Routers />
         {/* displays the content with Outlet */}
         <Outlet></Outlet>
       </div>
