@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../ButtonComponent/ButtonComponent';
 import SearchBox from '../SearchComponent/SearchComponent';
 import StarWarsBanner from '../../assets/img/star-wars-banner.png'
@@ -6,6 +6,10 @@ import StarWarsBanner from '../../assets/img/star-wars-banner.png'
 function StarshipFilterComponent(props) {
     const [searchText, setSearchText] = useState('');
     const [selectedCrewFilter, setSelectedCrewFilter] = useState('');
+    const [selectedCargoFilter, setSelectedCargoFilter] = useState('');
+    const [selectedLenghtFilter, setSelectedLenghtFilter] = useState('');
+
+
     const [selectedPassengerFilter, setSelectedPassengerFilter] = useState('');
 
     const crewOptions = [
@@ -30,12 +34,49 @@ function StarshipFilterComponent(props) {
         { label: "50.000+", value: "50000+" },
     ];
 
+    const ratingOptions = [
+        { label: "No sorting", value: "" },
+        { label: "Highest rating", value: "" },
+        { label: "Lowest rating", value: "50+" },
+    ];
+
+    const cargoOptions = [
+        { label: "All", value: "" },
+        { label: "1K+", value: "1000+" },
+        { label: "50K+", value: "50000+" },
+        { label: "100K+", value: "100000+" },
+        { label: "500K+", value: "500000+" },
+        { label: "1M+", value: "1000000+" },
+        { label: "10M+", value: "10000000+" },
+    ];
+
+    const lenghtOptions = [
+        { label: "All", value: "" },
+        { label: "1+", value: "1+" },
+        { label: "10+", value: "10+" },
+        { label: "100+", value: "100+" },
+        { label: "500+", value: "500+" },
+        { label: "1000+", value: "1000+" },
+    ];
+
+    useEffect(() => {
+        handleFilterAndSearch();
+    }, [selectedCrewFilter,selectedPassengerFilter]);
+
     const handleSearchTextChange = event => {
         setSearchText(event.target.value);
     }
 
     const handleCrewFilterChange = event => {
         setSelectedCrewFilter(event.target.value);
+    }
+
+    const handleCargoFilterChange = event => {
+        selectedCargoFilter(event.target.value);
+    }
+
+    const handleLenghtFilterChange = event => {
+        selectedLenghtFilter(event.target.value);
     }
 
     const handlePassengerFilterChange = event => {
@@ -66,16 +107,13 @@ function StarshipFilterComponent(props) {
 
     return (
 
-        <div className="flex flex-col rounded-lg border-2 border-secondary-500 p-2 bg-opacity-80 "
-            style={{ backgroundImage: `url(${StarWarsBanner})` }}>
-
-            <div className="flex flex-col sm:flex-row sm:justify-center p-4 rounded-full">
+        <div className="flex flex-col rounded-3xl border-2 border-secondary-500 pb-4 bg-opacity-80 max-w-xs sm:max-w-full pl-6 pr-6" style={{ backgroundImage: `url(${StarWarsBanner})` }}>
+            <div className="flex flex-col sm:flex-row sm:justify-center p-4 rounded-full md:px-48">
                 <SearchBox
                     placeholder="Search here"
                     value={searchText}
                     onChange={handleSearchTextChange}
                 />
-
                 <Button
                     onClick={handleFilterAndSearch}
                     className="w-full sm:w-auto lg:ml-2 sm:ml-2 mt-2 lg:mt-0 md:mt-0 sm:mt-0 "
@@ -85,29 +123,17 @@ function StarshipFilterComponent(props) {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-4 ">
-
+            <div className="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-4 ">
                 <div className='col-span-2 pl-2'>
-                    <blockquote className="border-l-4 backdrop-blur-lg rounded-lg bg-black bg-opacity-75">
-                        <p className="italic pl-2">"Do. Or do not. There is no try."</p>
-                        <br />
+                    <blockquote className="block border-l-4 backdrop-blur-lg rounded-lg bg-black bg-opacity-75">
+                        <p className="italic pl-2 py-2">"Do. Or do not. There is no try."</p>
                         <footer className="text-right pr-2">- YODA</footer>
                     </blockquote>
 
-                </div>
-
-                <div className="col-span-1">
-                    <div className="backdrop-blur-lg bg-black bg-opacity-40 rounded-lg p-4">
-                        <label htmlFor="crew-select" className="block text-xs font-medium text-primary-50 mb-2">
-                            Crew filter
-                        </label>
-                        <select
-                            id="crew-select"
-                            value={selectedCrewFilter}
-                            onChange={handleCrewFilterChange}
-                            className="block w-full py-1 pl-3 pr-10 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm"
-                        >
-                            {crewOptions.map(option => (
+                    <div class="backdrop-blur-lg flex flex-col bg-black bg-opacity-40 rounded-lg p-2 mt-1">
+                        <label for="passengers-select" class="text-white text-center font-medium mb-1 md:mr-2 text-xs">Sort by Rating</label>
+                        <select id="passengers-select" class="block w-full md:w-auto py-1 px-3 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm md:mb-0 md:mr-2">
+                            {ratingOptions.map(option => (
                                 <option key={option.value} value={option.value}>
                                     {option.label}
                                 </option>
@@ -115,6 +141,7 @@ function StarshipFilterComponent(props) {
                         </select>
                     </div>
                 </div>
+
                 <div className="col-span-1">
                     <div className="backdrop-blur-lg bg-black bg-opacity-40 rounded-lg p-4">
                         <label htmlFor="passengers-select" className="block text-xs font-medium text-primary-50 mb-2">
@@ -132,11 +159,62 @@ function StarshipFilterComponent(props) {
                                 </option>
                             ))}
                         </select>
+
+                        <label htmlFor="crew-select" className="block text-xs font-medium text-primary-50 mt-2">
+                            Crew filter
+                        </label>
+                        <select
+                            id="crew-select"
+                            value={selectedCrewFilter}
+                            onChange={handleCrewFilterChange}
+                            className="block w-full py-1 pl-3 pr-10 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm"
+                        >
+                            {crewOptions.map(option => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="col-span-1">
+                    <div className="backdrop-blur-lg bg-black bg-opacity-40 rounded-lg p-4">
+                        <label htmlFor="cargo-select" className="block text-xs font-medium text-primary-50 mb-2">
+                            Cargo filter
+                        </label>
+                        <select
+                            id="cargo-select"
+                            value={selectedCargoFilter}
+                            onChange={handleCargoFilterChange}
+                            className="block w-full py-1 pl-3 pr-10 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm"
+                        >
+                            {cargoOptions.map(option => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+
+                        <label htmlFor="lengh-select" className="block text-xs font-medium text-primary-50 mt-2">
+                            Lenght filter
+                        </label>
+                        <select
+                            id="lengh-select"
+                            value={selectedLenghtFilter}
+                            onChange={handleLenghtFilterChange}
+                            className="block w-full py-1 pl-3 pr-10 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm"
+                        >
+                            {lenghtOptions.map(option => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
             </div>
-
-        </div >
+        </div>
     );
 }
 
