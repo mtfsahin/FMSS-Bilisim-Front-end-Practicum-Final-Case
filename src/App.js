@@ -9,7 +9,7 @@ function App() {
   return (
 
     <StarshipProvider>
-      {/* <StarBackground /> */}
+      <StarBackground />
       <div>
         <Header />
 

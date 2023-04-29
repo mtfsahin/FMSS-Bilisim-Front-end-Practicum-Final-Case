@@ -6,8 +6,8 @@
 
 @layer base {
     body{
-        @apply max-w-6xl mx-auto px-4 ;
-        @apply bg-primary-950 text-white
+        @apply max-w-5xl mx-auto px-4 ;
+        @apply bg-primary-950 text-white;
     }
 
 }

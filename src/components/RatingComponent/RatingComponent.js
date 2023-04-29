@@ -16,7 +16,7 @@ function RatingComponent({ rating }) {
 
     return (
         <div className="flex justify-center items-center mb-2  text-xs">
-            <p className="text-primary-50 mr-1">Rank:</p>
+            <p className="text-primary-50 mr-1">Rating:</p>
             {stars}
             {/* Rating değeri */}
             <span className="text-primary-300 text-xs ml-1">({rating})</span>
