@@ -6,20 +6,23 @@ import StarWarsBanner from '../../assets/img/star-wars-banner.png'
 
 
 function StarshipFilterComponent(props) {
+
+    //this component, pressing the search button searches for names.
+    //created filters for crew, cargo, length, passenger, and rating in this component
+    //It runs only when selected, so it doesn't work continuously in the background
+
+    // call use state for loading ships data
     const { loading } = useContext(StarshipContext);
 
+    //filter states
     const [searchText, setSearchText] = useState('');
     const [selectedCrewFilter, setSelectedCrewFilter] = useState('');
     const [selectedCargoFilter, setSelectedCargoFilter] = useState('');
     const [selectedLengthFilter, setSelectedLengthFilter] = useState('');
     const [selectedPassengerFilter, setSelectedPassengerFilter] = useState('');
     const [selectedRatingFilter, setSelectedRatingFilter] = useState('');
-    const [filteredStarships, setFilteredStarships] = useState([]);
 
-    const handleRemoveFilters = () => {
-        setFilteredStarships([]);
-    };
-
+    //options for crew filter
     const crewOptions = [
         { label: "All", value: "" },
         { label: "1+", value: "1" },
@@ -31,6 +34,7 @@ function StarshipFilterComponent(props) {
         { label: "250.000+", value: "250000" },
     ];
 
+    //options for assenger filter
     const passengerOptions = [
         { label: "All", value: "" },
         { label: "10+", value: "10" },
@@ -42,12 +46,14 @@ function StarshipFilterComponent(props) {
         { label: "50.000+", value: "50000" },
     ];
 
+    //options for rating filter
     const ratingOptions = [
         { label: "No sorting", value: "" },
         { label: "Highest rating", value: "highest" },
         { label: "Lowest rating", value: "lowest" },
     ];
 
+    //options for cargo filter
     const cargoOptions = [
         { label: "All", value: "" },
         { label: "1K+", value: "1000" },
@@ -58,6 +64,7 @@ function StarshipFilterComponent(props) {
         { label: "10M+", value: "10000000" },
     ];
 
+    //options for length filter
     const LengthOptions = [
         { label: "All", value: "" },
         { label: "1+", value: "1" },
@@ -67,7 +74,9 @@ function StarshipFilterComponent(props) {
         { label: "1000+", value: "1000" },
     ];
 
+
     useEffect(() => {
+        //reset filter refresh
         handleFilterAndSearch();
     }, [
         selectedCrewFilter,
@@ -77,30 +86,33 @@ function StarshipFilterComponent(props) {
         selectedRatingFilter
     ]);
 
+    //handleSearchTextChange
     const handleSearchTextChange = event => {
         setSearchText(event.target.value);
     }
-
+    //handleCrewFilterChange
     const handleCrewFilterChange = event => {
         setSelectedCrewFilter(event.target.value);
     }
 
+    //handleCargoFilterChange
     const handleCargoFilterChange = event => {
         setSelectedCargoFilter(event.target.value);
     }
-
+    // handleLengthFilterChange
     const handleLengthFilterChange = event => {
         setSelectedLengthFilter(event.target.value);
     }
-
+    // handlePassengerFilterChange
     const handlePassengerFilterChange = event => {
         setSelectedPassengerFilter(event.target.value);
     }
-
+    // handleRatingFilterChange
     const handleRatingFilterChange = event => {
         setSelectedRatingFilter(event.target.value);
     }
 
+    // taking the selected expressions as props in the filters
     const handleFilterAndSearch = () => {
         const { onFilter } = props;
         let filters = {};
@@ -139,8 +151,8 @@ function StarshipFilterComponent(props) {
     };
 
     return (
-
         <div className="flex flex-col rounded-3xl border-2 border-secondary-500 pb-7 bg-opacity-80 max-w-xs sm:max-w-full pl-6 pr-6" style={{ backgroundImage: `url(${StarWarsBanner})` }}>
+            {/* check loading data */}
             {loading ?
                 (
                     <div className="flex h-60 justify-center items-center text-xl font-extrabold text-primary-800">
@@ -148,6 +160,7 @@ function StarshipFilterComponent(props) {
                     </div>
                 ) : (
                     <div>
+                        {/* search area */}
                         <div className="flex flex-col sm:flex-row sm:justify-center p-4 rounded-full md:px-48">
                             <SearchBox
                                 placeholder="Search here"
@@ -162,13 +175,15 @@ function StarshipFilterComponent(props) {
                                 Search
                             </Button>
                         </div>
+                        {/* filters area */}
                         <div className="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-4 ">
                             <div className='col-span-2 pl-2'>
+                                {/* YODO :) */}
                                 <blockquote className="block border-l-4 backdrop-blur-lg rounded-lg bg-black bg-opacity-75">
                                     <p className="italic pl-2 py-2">"Do. Or do not. There is no try."</p>
                                     <footer className="text-right pr-2">- YODA</footer>
                                 </blockquote>
-
+                                {/* rating filter */}
                                 <div className="backdrop-blur-lg flex flex-col bg-black bg-opacity-40 rounded-lg p-2 mt-1">
                                     <label htmlFor="rating-select" className="text-white text-center font-medium mb-1 md:mr-2 text-xs">Sort by Rating</label>
                                     <select
@@ -184,7 +199,7 @@ function StarshipFilterComponent(props) {
                                     </select>
                                 </div>
                             </div>
-
+                            {/* Passengers filter */}
                             <div className="col-span-1">
                                 <div className="backdrop-blur-lg bg-black bg-opacity-40 rounded-lg p-4">
                                     <label htmlFor="passengers-select" className="block text-xs font-medium text-primary-50 mb-2">
@@ -202,7 +217,7 @@ function StarshipFilterComponent(props) {
                                             </option>
                                         ))}
                                     </select>
-
+                                    {/* Crew filter */}
                                     <label htmlFor="crew-select" className="block text-xs font-medium text-primary-50 mt-2">
                                         Crew filter
                                     </label>
@@ -220,7 +235,7 @@ function StarshipFilterComponent(props) {
                                     </select>
                                 </div>
                             </div>
-
+                            {/* Cargo filter */}
                             <div className="col-span-1">
                                 <div className="backdrop-blur-lg bg-black bg-opacity-40 rounded-lg p-4">
                                     <label htmlFor="cargo-select" className="block text-xs font-medium text-primary-50 mb-2">
@@ -238,7 +253,7 @@ function StarshipFilterComponent(props) {
                                             </option>
                                         ))}
                                     </select>
-
+                                    {/* Length filter */}
                                     <label htmlFor="lengh-select" className="block text-xs font-medium text-primary-50 mt-2">
                                         Length filter
                                     </label>

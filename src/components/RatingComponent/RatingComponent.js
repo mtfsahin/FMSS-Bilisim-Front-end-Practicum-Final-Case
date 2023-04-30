@@ -1,7 +1,15 @@
 function RatingComponent({ rating }) {
+
+    //Here, I have created a component that turns the star yellow according 
+    //to the received rating value
+
+    //total stars
     const totalStars = 5;
+     //total stars array
+
     const stars = [];
 
+    //turns yellow according to the received value
     for (let i = 1; i <= totalStars; i++) {
         if (i <= rating) {
             stars.push(<svg key={i} className="w-4 h-4 text-secondary-500 mr-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -18,7 +26,7 @@ function RatingComponent({ rating }) {
         <div className="flex justify-center items-center mb-2  text-xs">
             <p className="text-primary-50 mr-1">Rating:</p>
             {stars}
-            {/* Rating değeri */}
+            {/* Rating value */}
             <span className="text-primary-300 text-xs ml-1">({rating})</span>
         </div>
     );

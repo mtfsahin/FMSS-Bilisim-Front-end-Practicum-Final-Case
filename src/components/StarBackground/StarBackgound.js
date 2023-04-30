@@ -2,15 +2,24 @@ import { useEffect } from "react";
 import { random } from "lodash";
 
 function StarBackground() {
+
+    //This component, I created dots that move on the screen and 
+    //change direction when they hit the corners. 
+    //I used this in the background
+
+
     useEffect(() => {
+        //create canvas
         const canvas = document.getElementById("star-canvas");
         const ctx = canvas.getContext("2d");
         const width = (canvas.width = window.innerWidth);
         const height = (canvas.height = window.innerHeight);
 
+        //create stars
         const stars = [];
         const maxStars = 1000;
 
+        
         for (let i = 0; i < maxStars; i++) {
             stars.push({
                 x: random(0, width),
@@ -20,7 +29,7 @@ function StarBackground() {
                 vy: random(-1, 1),
             });
         }
-
+        //animate stars
         function animate() {
             requestAnimationFrame(animate);
             ctx.clearRect(0, 0, width, height);
@@ -45,6 +54,7 @@ function StarBackground() {
             }
         }
 
+        //start animate
         animate();
 
         // Handle window resize
@@ -52,7 +62,7 @@ function StarBackground() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-
+        // resize window 
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);

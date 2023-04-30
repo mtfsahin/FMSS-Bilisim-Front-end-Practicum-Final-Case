@@ -1,8 +1,9 @@
 import React from 'react';
 import RatingComponent from '../RatingComponent/RatingComponent';
 
+//Created a card component here by sending the props I received from the starship list to make it functional."
 
-const Card = ({ title, subtitle, rating, passengers , length, cargo_capacity, crew , image}) => {
+const Card = ({ title, subtitle, rating, passengers, length, cargo_capacity, crew, image }) => {
     return (
         <div className="w-64 mt-1 transition-all duration-100 rounded-3xl overflow-hidden bg-primary-950 
                     cursor-pointer border-2 border-secondary-500 
@@ -17,13 +18,14 @@ const Card = ({ title, subtitle, rating, passengers , length, cargo_capacity, cr
                 <div className="px-6 py-3 bg-primary-950">
                     {/* Rating Area */}
                     <div className='flex justify-center'>
+                    {/* Rounding here so that it doesn't give an error if there is a fractional value. */}
                         <RatingComponent rating={Math.floor(rating)} />
                     </div>
-                    {/* Functional area  */}
+                    {/* Title area  */}
                     <div className="text-center overflow-hidden truncate text-primary-100 text-md font-bold">{title}</div>
-                    {/* Functional area  */}
+                    {/* SubTitle area  */}
                     <p className="text-center overflow-hidden truncate text-primary-100 text-sm">{subtitle}</p>
-                    {/* Functional area */}
+                    {/* Crew Passengers Lenght Cargo area */}
                     <div className="text-primary-50 text-xs font-sans mt-2 ">
                         <div className="flex justify-between">
                             <p className="font-bold">Crew:</p>
