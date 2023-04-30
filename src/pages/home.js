@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom'
 import SWLogo from '../assets/img/sw_logo.webp'
 import StarshipList from '../components/StarshipList'
@@ -7,7 +7,7 @@ const Home = () => {
     return (
         <>
             <div className='flex justify-center'>
-                <img alt="star_wars_logo" src={SWLogo} className='w-24 mt-4 mb-2'></img>
+                <img alt="star_wars_logo" src={SWLogo} className='w-36 mt-4 mb-5'></img>
             </div>
             <StarshipList />
             <Outlet></Outlet>
