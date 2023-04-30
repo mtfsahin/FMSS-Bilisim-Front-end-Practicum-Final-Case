@@ -7,61 +7,67 @@ function StarshipFilterComponent(props) {
     const [searchText, setSearchText] = useState('');
     const [selectedCrewFilter, setSelectedCrewFilter] = useState('');
     const [selectedCargoFilter, setSelectedCargoFilter] = useState('');
-    const [selectedLenghtFilter, setSelectedLenghtFilter] = useState('');
-
-
+    const [selectedLengthFilter, setSelectedLengthFilter] = useState('');
     const [selectedPassengerFilter, setSelectedPassengerFilter] = useState('');
+    const [selectedRatingFilter, setSelectedRatingFilter] = useState('');
+
 
     const crewOptions = [
         { label: "All", value: "" },
-        { label: "1+", value: "1+" },
-        { label: "10+", value: "10+" },
-        { label: "100+", value: "100+" },
-        { label: "500+", value: "500+" },
-        { label: "1000+", value: "1000+" },
-        { label: "100.000+", value: "100000+" },
-        { label: "250.000+", value: "250000+" },
+        { label: "1+", value: "1" },
+        { label: "10+", value: "10" },
+        { label: "100+", value: "100" },
+        { label: "500+", value: "500" },
+        { label: "1000+", value: "1000" },
+        { label: "100.000+", value: "100000" },
+        { label: "250.000+", value: "250000" },
     ];
 
     const passengerOptions = [
         { label: "All", value: "" },
-        { label: "10+", value: "10+" },
-        { label: "50+", value: "50+" },
-        { label: "100+", value: "100+" },
-        { label: "500+", value: "500+" },
-        { label: "1000+", value: "1000+" },
-        { label: "10.000+", value: "10000+" },
-        { label: "50.000+", value: "50000+" },
+        { label: "10+", value: "10" },
+        { label: "50+", value: "50" },
+        { label: "100+", value: "100" },
+        { label: "500+", value: "500" },
+        { label: "1000+", value: "1000" },
+        { label: "10.000+", value: "10000" },
+        { label: "50.000+", value: "50000" },
     ];
 
     const ratingOptions = [
         { label: "No sorting", value: "" },
-        { label: "Highest rating", value: "" },
-        { label: "Lowest rating", value: "50+" },
+        { label: "Highest rating", value: "highest" },
+        { label: "Lowest rating", value: "lowest" },
     ];
 
     const cargoOptions = [
         { label: "All", value: "" },
-        { label: "1K+", value: "1000+" },
-        { label: "50K+", value: "50000+" },
-        { label: "100K+", value: "100000+" },
-        { label: "500K+", value: "500000+" },
-        { label: "1M+", value: "1000000+" },
-        { label: "10M+", value: "10000000+" },
+        { label: "1K+", value: "1000" },
+        { label: "50K+", value: "50000" },
+        { label: "100K+", value: "100000" },
+        { label: "500K+", value: "500000" },
+        { label: "1M+", value: "1000000" },
+        { label: "10M+", value: "10000000" },
     ];
 
-    const lenghtOptions = [
+    const LengthOptions = [
         { label: "All", value: "" },
-        { label: "1+", value: "1+" },
-        { label: "10+", value: "10+" },
-        { label: "100+", value: "100+" },
-        { label: "500+", value: "500+" },
-        { label: "1000+", value: "1000+" },
+        { label: "1+", value: "1" },
+        { label: "10+", value: "10" },
+        { label: "100+", value: "100" },
+        { label: "500+", value: "500" },
+        { label: "1000+", value: "1000" },
     ];
 
     useEffect(() => {
         handleFilterAndSearch();
-    }, [selectedCrewFilter,selectedPassengerFilter]);
+    }, [
+        selectedCrewFilter,
+        selectedPassengerFilter,
+        selectedCargoFilter,
+        selectedLengthFilter,
+        selectedRatingFilter
+    ]);
 
     const handleSearchTextChange = event => {
         setSearchText(event.target.value);
@@ -72,15 +78,19 @@ function StarshipFilterComponent(props) {
     }
 
     const handleCargoFilterChange = event => {
-        selectedCargoFilter(event.target.value);
+        setSelectedCargoFilter(event.target.value);
     }
 
-    const handleLenghtFilterChange = event => {
-        selectedLenghtFilter(event.target.value);
+    const handleLengthFilterChange = event => {
+        setSelectedLengthFilter(event.target.value);
     }
 
     const handlePassengerFilterChange = event => {
         setSelectedPassengerFilter(event.target.value);
+    }
+
+    const handleRatingFilterChange = event => {
+        setSelectedRatingFilter(event.target.value);
     }
 
     const handleFilterAndSearch = () => {
@@ -100,6 +110,21 @@ function StarshipFilterComponent(props) {
         // Passenger filter
         if (selectedPassengerFilter !== '') {
             filters.passengers = selectedPassengerFilter;
+        }
+
+        // Cargo filter
+        if (selectedCargoFilter !== '') {
+            filters.cargo_capacity = selectedCargoFilter;
+        }
+
+        // Cargo filter
+        if (selectedLengthFilter !== '') {
+            filters.length = selectedLengthFilter;
+        }
+
+        // rating sort
+        if (selectedRatingFilter !== null) {
+            filters.rating = selectedRatingFilter;
         }
 
         onFilter(filters);
@@ -130,9 +155,13 @@ function StarshipFilterComponent(props) {
                         <footer className="text-right pr-2">- YODA</footer>
                     </blockquote>
 
-                    <div class="backdrop-blur-lg flex flex-col bg-black bg-opacity-40 rounded-lg p-2 mt-1">
-                        <label for="passengers-select" class="text-white text-center font-medium mb-1 md:mr-2 text-xs">Sort by Rating</label>
-                        <select id="passengers-select" class="block w-full md:w-auto py-1 px-3 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm md:mb-0 md:mr-2">
+                    <div className="backdrop-blur-lg flex flex-col bg-black bg-opacity-40 rounded-lg p-2 mt-1">
+                        <label htmlFor="rating-select" className="text-white text-center font-medium mb-1 md:mr-2 text-xs">Sort by Rating</label>
+                        <select
+                            onChange={handleRatingFilterChange}
+                            value={selectedRatingFilter}
+                            id="rating-select"
+                            className="block w-full md:w-auto py-1 px-3 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm md:mb-0 md:mr-2">
                             {ratingOptions.map(option => (
                                 <option key={option.value} value={option.value}>
                                     {option.label}
@@ -197,15 +226,15 @@ function StarshipFilterComponent(props) {
                         </select>
 
                         <label htmlFor="lengh-select" className="block text-xs font-medium text-primary-50 mt-2">
-                            Lenght filter
+                            Length filter
                         </label>
                         <select
                             id="lengh-select"
-                            value={selectedLenghtFilter}
-                            onChange={handleLenghtFilterChange}
+                            value={selectedLengthFilter}
+                            onChange={handleLengthFilterChange}
                             className="block w-full py-1 pl-3 pr-10 text-base text-primary-700 bg-primary-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm"
                         >
-                            {lenghtOptions.map(option => (
+                            {LengthOptions.map(option => (
                                 <option key={option.value} value={option.value}>
                                     {option.label}
                                 </option>
@@ -219,3 +248,4 @@ function StarshipFilterComponent(props) {
 }
 
 export default StarshipFilterComponent;
+

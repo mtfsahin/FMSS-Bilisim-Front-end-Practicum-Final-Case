@@ -5,7 +5,7 @@ import StarshipImg from '../../assets/img/starship_1.png'
 
 const Card = ({ title, subtitle, rating, passengers , length, cargo_capacity}) => {
     return (
-        <div class="w-64 mt-1 transition-all duration-100 rounded-3xl overflow-hidden bg-primary-950 
+        <div className="w-64 mt-1 transition-all duration-100 rounded-3xl overflow-hidden bg-primary-950 
                     cursor-pointer border-2 border-secondary-500 
                     shadow-[5px_5px_rgba(0,_98,_90,_0.4),_10px_10px_rgba(0,_98,_90,_0.3),_15px_15px_rgba(0,_98,_90,_0.2),_20px_20px_rgba(0,_98,_90,_0.1),_25px_25px_rgba(0,_98,_90,_0.05)] 
                     hover:scale-105">

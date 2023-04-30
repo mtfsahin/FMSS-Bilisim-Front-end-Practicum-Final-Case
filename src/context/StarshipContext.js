@@ -32,7 +32,7 @@ export const StarshipProvider = ({ children }) => {
     };
 
     return (
-        <StarshipContext.Provider value={{ starships, fetchNextPage , nextPage, loading}}>
+        <StarshipContext.Provider value={{ starships, setStarships,  fetchNextPage , nextPage, loading}}>
             {children}
         </StarshipContext.Provider>
     );
