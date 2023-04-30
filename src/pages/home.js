@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom'
 import SWLogo from '../assets/img/sw_logo.webp'
-import StarshipList from '../components/StarshipList'
+import StarshipList from '../components/StarshipListComponent/StarshipList'
 
 const Home = () => {
     return (

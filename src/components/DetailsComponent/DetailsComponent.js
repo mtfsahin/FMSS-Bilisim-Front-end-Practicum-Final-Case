@@ -2,6 +2,10 @@ import { useParams, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
+import axios from 'axios';
+
+import Images from "../../assets/img/image.json"
+
 
 export default function DetailsComponent({ url }) {
     const [starship, setStarship] = useState(null);
@@ -20,19 +24,16 @@ export default function DetailsComponent({ url }) {
     useEffect(() => {
         setLoading(true);
         const fetchStarship = async () => {
-            const response = await fetch(`https://swapi.dev/api/starships/${starshipID}`);
-            const data = await response.json();
-            setStarship(data);
-            console.log("gelen data", data)
-            setLoading(false);
+            try {
+                const response = await axios.get(`https://swapi.dev/api/starships/${starshipID}`);
+                setStarship(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
         };
         fetchStarship();
     }, []);
-
-
-
-    //If the book variable is empty, a warning will appear on the screen
-
 
     function getData(name, description) {
         return <p className="text-sm mb-2">
@@ -50,11 +51,12 @@ export default function DetailsComponent({ url }) {
 
     return (
         <div className="container mx-auto mt-10 p-10 bg-white backdrop-blur-sm bg-opacity-20 rounded-md">
+
             {loading ? (
                 <div className="relative justify-center items-center">
                     <LoadingComponent />
                 </div>
-                ) : (
+            ) : (
                 <div>
                     <Link
                         to="/"
@@ -63,21 +65,19 @@ export default function DetailsComponent({ url }) {
                     >
                         Go back
                     </Link>
+
                     <div className="flex flex-wrap my-8">
                         <div className="w-full md:w-2/5 md:pr-10 ">
                             {/* Book image area */}
-                            {/* {starship.volumeInfo.imageLinks && (
-                                <img
-                                    className="w-52 pl-4"
-                                    // change zoom=1 value zoom=2, because images in zoom2 more than clear zoom1
-                                    //In some, images do not appear when http so i changed https
-                                    src={starship.volumeInfo.imageLinks.thumbnail.replace(
-                                        "http://",
-                                        "https://"
-                                    ).replace("zoom=1", "zoom=2")}
-                                    alt={starship.volumeInfo.title}
-                                />
-                            )} */}
+                            <img
+                                className="w-52 pl-4"
+                                // change zoom=1 value zoom=2, because images in zoom2 more than clear zoom1
+                                //In some, images do not appear when http so i changed https
+                                src={Images.find(
+                                    (image) => image.name === starship.name
+                                )?.img}
+                            />
+
                         </div>
                         <div className="w-full md:w-3/5 mt-8 md:mt-0 pl-4">
                             <h1 className="text-xl md:text-4xl font-bold mb-2">

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-
+import axios from 'axios';
 export const StarshipContext = createContext();
 
 export const StarshipProvider = ({ children }) => {
@@ -10,16 +10,20 @@ export const StarshipProvider = ({ children }) => {
 
     useEffect(() => {
         setLoading(true);
+
         const fetchStarships = async () => {
-            const response = await fetch('https://swapi.dev/api/starships/');
-            const data = await response.json();
-            setStarships(data.results);
-            setNextPage(data.next);
-            setLoading(false);
+            try {
+                const response = await axios.get('https://swapi.dev/api/starships/');
+                setStarships(response.data.results);
+                setNextPage(response.data.next);
+            } catch (error) {
+                console.error('Error fetching starships:', error);
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchStarships();
-
     }, []);
 
     const fetchNextPage = async () => {
@@ -32,7 +36,7 @@ export const StarshipProvider = ({ children }) => {
     };
 
     return (
-        <StarshipContext.Provider value={{ starships, setStarships,  fetchNextPage , nextPage, loading}}>
+        <StarshipContext.Provider value={{ starships, setStarships, fetchNextPage, nextPage, loading }}>
             {children}
         </StarshipContext.Provider>
     );
