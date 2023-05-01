@@ -6,7 +6,7 @@ export const StarshipProvider = ({ children }) => {
     const [starships, setStarships] = useState([]);
     const [nextPage, setNextPage] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [loadingNext, setLoadingNext] = useState(true);
+    const [loadingNext, setLoadingNext] = useState(false);
 
 
     // Use the useEffect hook to run the fetchStarships function when the component mounts
@@ -41,7 +41,7 @@ export const StarshipProvider = ({ children }) => {
         setLoadingNext(true);
         //If there is no nextPage value, return and do nothing
         if (!nextPage) return;
-        
+
         // Fetch the next page of data using the nextPage URL
         const response = await fetch(nextPage);
         const data = await response.json();
