@@ -6,6 +6,7 @@ export const StarshipProvider = ({ children }) => {
     const [starships, setStarships] = useState([]);
     const [nextPage, setNextPage] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingNext, setLoadingNext] = useState(true);
 
 
     // Use the useEffect hook to run the fetchStarships function when the component mounts
@@ -37,9 +38,10 @@ export const StarshipProvider = ({ children }) => {
 
     //define an async function to fetch the next page of starship data
     const fetchNextPage = async () => {
+        setLoadingNext(true);
         //If there is no nextPage value, return and do nothing
         if (!nextPage) return;
-
+        
         // Fetch the next page of data using the nextPage URL
         const response = await fetch(nextPage);
         const data = await response.json();
@@ -47,11 +49,12 @@ export const StarshipProvider = ({ children }) => {
         // Update the state with the new starship data
         setStarships(prevState => [...prevState, ...data.results]);
         setNextPage(data.next);
+        setLoadingNext(false);
     };
 
 
     return (
-        <StarshipContext.Provider value={{ starships, setStarships, fetchNextPage, nextPage, loading }}>
+        <StarshipContext.Provider value={{ starships, setStarships, fetchNextPage, nextPage, loading, loadingNext}}>
             {children}
         </StarshipContext.Provider>
     );

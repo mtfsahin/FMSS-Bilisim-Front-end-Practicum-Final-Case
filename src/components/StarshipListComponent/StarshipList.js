@@ -10,7 +10,7 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 function StarshipList() {
     // call starships, fetchNextPage, nextPage, loading with useContex
-    const { starships, fetchNextPage, nextPage, loading } = useContext(StarshipContext);
+    const { starships, fetchNextPage, nextPage, loading,loadingNext } = useContext(StarshipContext);
 
     const [page, setPage] = useState(1);
     const [noMoreData, setNoMoreData] = useState(false);
@@ -220,14 +220,23 @@ function StarshipList() {
 
                                     <div className="flex justify-center col-span-full">
                                         {/* Load More button */}
-                                        <Button
-                                            onClick={handleNextPage}
-                                            disabled={loading}
-                                            className={`mt-5 ${noMoreData ? "opacity-50 cursor-not-allowed" : ""}`}
-                                        >
-                                            {/* text content of the button */}
-                                            {loading ? 'Loading...' : 'Load More'}
-                                        </Button>
+                                        {loadingNext ?
+                                            <div>
+                                                Loading...
+                                            </div> 
+                                            :
+                                            (
+                                                <Button
+                                                    onClick={handleNextPage}
+                                                    disabled={loading}
+                                                    className={`mt-5 ${noMoreData ? "opacity-50 cursor-not-allowed" : ""}`}
+                                                >Load More</Button>
+                                            )
+                                        }
+
+                                        {/* text content of the button */}
+
+
                                     </div>
                                 </div>
 
