@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function about() {
   return (
-    <div className="max-w-screen-4xl mx-auto px-20">
+    <div className="max-w-screen-4xl mx-auto px-10">
 
       <div className='flex justify-center p-5 bg-white backdrop-blur-sm bg-opacity-20 rounded-3xl mt-5 '>
         <div className='text-lg font-semibold'>

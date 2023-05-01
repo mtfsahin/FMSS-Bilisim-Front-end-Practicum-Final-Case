@@ -6,23 +6,19 @@ import StarBackground from './components/StarBackground/StarBackgound';
 import Footer from './components/common/Footer';
 
 function App() {
-
   return (
-
     <StarshipProvider>
-      <StarBackground />
-
+      {/* Header */}
       <Header />
-
+      {/* Routers */}
       <Routers />
+      {/* Animated stars background */}
+      <StarBackground />
       {/* displays the content with Outlet */}
       <Outlet></Outlet>
-
-
+      {/* Footer */}
       <Footer />
     </StarshipProvider>
-
-
   );
 }
 

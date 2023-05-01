@@ -13,8 +13,6 @@ const Routers = () => {
             {/* after listing the starships, when you click on the starships, it creates a route according to the id of the starships */}
             <Route path="/starship/:starshipID" element={<DetailsComponent />} />
             <Route path="/favorites" element={<Favorites />} />
-
-
             {/* if searched page is not found this will be this output */}
             <Route path="*" element={<PageNotFound />} />
             {/* About page */}

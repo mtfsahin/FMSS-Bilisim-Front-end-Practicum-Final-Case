@@ -1,4 +1,3 @@
-import { useState } from "react";
 import LoadingGif from "../../assets/img/loading.gif"
 
 // I have created a loading component using a gif
@@ -10,6 +9,7 @@ function LoadingComponent() {
                 <img
                     className="w-80 h-64 animate-pulse"
                     src={LoadingGif}
+                    alt="loading"
                 />
             </div>
         </>
