@@ -144,9 +144,26 @@ function StarshipFilterComponent(props) {
         }
 
         onFilter(filters);
-        console.log("filters", filters)
     };
 
+    //search keydown enter 
+    const handleKeyDown = event => {
+        if (event.key === 'Enter') {
+            handleFilterAndSearch();
+        }
+    };
+    //removeFilter
+    function removeFilter() {
+        const { onFilter } = props;
+        setSearchText("");
+        setSelectedCrewFilter("");
+        setSelectedCargoFilter("");
+        setSelectedLengthFilter("");
+        setSelectedPassengerFilter("");
+        setSelectedRatingFilter("");
+        const filters = {};
+        onFilter(filters);
+    }
 
 
     return (
@@ -165,6 +182,7 @@ function StarshipFilterComponent(props) {
                                 <SearchBox
                                     placeholder="Search here"
                                     value={searchText}
+                                    onKeyDown={handleKeyDown}
                                     onChange={handleSearchTextChange}
                                 />
                                 <Button
@@ -175,8 +193,12 @@ function StarshipFilterComponent(props) {
                                     Search
                                 </Button>
                             </div>
+                            <div className="flex justify-center sm:-mt-4">
+                                <button onClick={removeFilter} className='text-red-500'>Remove Filter</button>
+                            </div>
+
                             {/* filters area */}
-                            <div className="grid grid-cols-2 gap-4 mt-4 sm:grid-cols-4 ">
+                            <div className="grid grid-cols-2 gap-4 mt-3 sm:grid-cols-4">
                                 <div className='col-span-2 pl-2'>
                                     {/* YODO :) */}
                                     <blockquote className="block border-l-4 backdrop-blur-lg rounded-lg bg-black bg-opacity-75">

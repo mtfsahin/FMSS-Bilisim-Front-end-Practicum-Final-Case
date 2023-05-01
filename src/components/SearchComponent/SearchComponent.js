@@ -3,7 +3,7 @@ import React from "react";
 //Created a search box component that can receive props such as value, 
 //placeholder, onChange, className from the outside
 
-const SearchBox = ({ value, placeholder, onChange , className}) => {
+const SearchBox = ({ value, placeholder, onChange , className, onKeyDown}) => {
 
     return (
         <>
@@ -14,6 +14,7 @@ const SearchBox = ({ value, placeholder, onChange , className}) => {
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
             />
         </>
     );
